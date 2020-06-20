@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TaskOptions : MonoBehaviour
 {
@@ -33,10 +34,13 @@ public class TaskOptions : MonoBehaviour
         if (name.Length == 0) return;
         GameObject newTask = Instantiate(TaskPrefab);
         newTask.transform.parent = transform;
-        newTask.GetComponent<Task>().Setup(name);
+        Task taskComp = newTask.GetComponent<Task>();
+        taskComp.Setup(name);
+        taskComp.parent = transform.parent.GetComponent<Task>();
 
         //Update all, just to make sure
-        //UpdateStatuses();
+        UpdateStatuses();
+        taskComp.PropogateRebuild();
     }
 
     public void UpdateStatuses()

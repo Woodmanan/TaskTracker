@@ -11,6 +11,8 @@ public class Task : MonoBehaviour
     private TMP_Dropdown stateDropdown;
 
     [SerializeField] private InputField title;
+
+    public Task parent;
     
     // Start is called before the first frame update
     void Start()
@@ -47,5 +49,17 @@ public class Task : MonoBehaviour
     {
         Color c = ColorManager.instance.colors[status];
         GetComponent<Image>().color = c;
+    }
+
+    public void PropogateRebuild()
+    {
+        if (parent)
+        {
+            parent.PropogateRebuild();
+        }
+        else
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform) transform);
+        }
     }
 }
